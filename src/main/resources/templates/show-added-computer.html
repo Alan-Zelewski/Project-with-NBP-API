@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <title>Title</title>
+</head>
+<body>
+<div class="container">
+    <h4>Dodano nowy komputer o parametrach:</h4>
+    <dl class="row">
+        <dt class="col-sm-3">Nazwa</dt>
+        <dd class="col-sm-9" th:text="${computer.getName()}"/>
+
+        <dt class="col-sm-3">Data księgowania</dt>
+        <dd class="col-sm-9" th:text="${computer.getDate()}"/>
+
+        <dt class="col-sm-3">Koszt w USD</dt>
+        <dd class="col-sm-9" th:text="${computer.getPriceUSD()}"/>
+
+        <dt class="col-sm-3">Koszt w PLN</dt>
+        <dd class="col-sm-9" th:text="${computer.getPricePLN()}"/>
+    </dl>
+</div>
+<a th:href="@{/}" class="btn btn-info btn-sm">Powrót do listy</a>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <title>Add Computer Form</title>
+</head>
+<body>
+<div class="container">
+  <h3>Dodaj Komputer</h3>
+  <form action="#" th:action="@{save}" method="post">
+    <input type="text" th:field="*{computer.name}" placeholder="Nazwa" required/>
+    <input type="date" th:attr="max=${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}"
+           th:field="${computer.date}" placeholder="Data zaksięgowania" required/>
+    <input type="number" step="0.01" min="0" th:field="${computer.priceUSD}"
+           placeholder="Koszt w USD" required/>
+    <button type="submit">Zapisz</button>
+  </form>
+    <a th:href="@{/}" class="btn btn-info btn-sm">Powrót do listy</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Strona główna</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+</head>
+<body>
+<div>
+    <h2 class="d-flex justify-content-center">Lista komputerów</h2>
+    <a th:href="@{/main/addComputer}" class="btn btn-info btn-sm">Dodaj komputer</a>
+    <br><br>
+    <form action="#" th:action="@{/main/{path}(path=${currentPage})}" method="get">
+        <p>Wyszukaj komputer
+            <input type="text" name="searchValue"/>
+            <input type="hidden" name="sortField" th:value="${sortField}">
+            <input type="hidden" name="sortDirection" th:value="${sortDirection}">
+            <input type="submit" value="Szukaj" class="btn btn-primary btn-sm"/>
+        </p>
+    </form>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>
+            <a th:href="@{${currentPage} + '?searchValue='+ ${searchValue} + '&sortField=name&sortDirection=' + ${reverseSortDirection}}">
+                Nazwa
+            </a>
+        </th>
+        <th>
+            <a th:href="@{${currentPage} + '?searchValue='+ ${searchValue} + '&sortField=date&sortDirection=' + ${reverseSortDirection}}">
+                Data księgowania
+            </a>
+        </th>
+        <th>Koszt w USD</th>
+        <th>Koszt w PLN</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="computer : ${computers}">
+        <td th:text="${computer.getName()}"/>
+        <td th:text="${computer.getDate()}"/>
+        <td th:text="${computer.getPriceUSD()}"/>
+        <td th:text="${computer.getPricePLN()}"/>
+    </tr>
+    </tbody>
+</table>
+    <div>
+        <form action="#" th:action="@{saveToFile}" method="post">
+            <p>Zapisz wynik wyszukiwania do pliku .xml
+            <input type="text" name="fileName"/>
+            <input type="hidden" name="sortField" th:value="${sortField}">
+            <input type="hidden" name="sortDirection" th:value="${sortDirection}">
+            <input type="hidden" name="searchValue" th:value="${searchValue}">
+            <input type="submit" value="Zapisz" class="btn btn-primary btn-sm"/>
+            </p>
+        </form>
+    </div>
+    <div th:if="${totalPages > 1}">
+        <div>
+            <span th:each="i: ${#numbers.sequence(1,totalPages)}">
+                <a th:if="${currentPage != i}" th:href="@{${i}+ '?searchValue='+ ${searchValue} + '&sortField='+${sortField}+'&sortDirection=' + ${sortDirection}}">[[${i}]]</a>
+                <span th:unless="${currentPage !=i}">[[${i}]]</span></span>
+        </div>
+        <div th:if="${currentPage < totalPages}">
+            <a th:href="@{${currentPage + 1}+ '?searchValue='+ ${searchValue} + '&sortField='+${sortField}+'&sortDirection=' + ${sortDirection}}">Następna strona</a>
+        </div>
+        <div th:if="${currentPage != 1}">
+            <a th:href="@{${currentPage - 1}+ '?searchValue='+ ${searchValue} + '&sortField='+${sortField}+'&sortDirection=' + ${sortDirection}}">Poprzednia strona</a>
+        </div>
+        <div th:if="${currentPage < totalPages}">
+            <a th:href="@{${totalPages}+ '?searchValue='+ ${searchValue} + '&sortField='+${sortField}+'&sortDirection=' + ${sortDirection}}">Ostatnia strona</a>
+        </div>
+        <div th:if="${currentPage > 1}">
+            <a th:href="@{'1?searchValue='+ ${searchValue} + '&sortField='+${sortField}+'&sortDirection=' + ${sortDirection}}">Pierwsza strona</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
